@@ -5,4 +5,4 @@ WORKDIR /FREEDOM
 
 COPY . /FREEDOM
 
-CMD ["/FREEDOM/init.sh"]
+CMD ["/bin/sh", "/FREEDOM/init.sh"]
