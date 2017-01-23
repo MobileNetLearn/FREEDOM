@@ -1,8 +1,8 @@
 FROM resin/rpi-raspbian:latest
 
 RUN mkdir -p /FREEDOM
-WORKDIR /FREEDOM
+WORKDIR /usr/src/app
 
-COPY . /FREEDOM
+COPY . ./
 
-CMD ["/bin/sh", "/FREEDOM/init.sh"]
+CMD ["./FREEDOM/init.sh"]
