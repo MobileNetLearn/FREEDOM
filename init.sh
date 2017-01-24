@@ -7,36 +7,33 @@ out() {
 
 onexit() {
 	out "got SIGTERM/KILL"
-	/etc/init.d/dnsmasq stop
-	/etc/init.d/hostapd stop
-	/etc/init.d/dbus stop
+	systemctl stop dnsmasq
+	systemctl stop hostapd
+	systemctl stop dbus
 }
 
-# Start haveged
-haveged -F >/var/log/haveged.log 2>/var/log/haveged.log
+# Probably not needed.
+out "Stopping any possibly conflicting services ..."
+systemctl stop connman || true
+systemctl stop NetworkManager || true
 
-# Unblock the device.
-rfkill unblock wlan
-
-# Set IP
-# ifconfig wlan1 10.1.1.1/24
-
-/etc/init.d/dbus start
-/etc/init.d/dnsmasq start
-sleep 1
-/etc/init.d/hostapd start
+# Systemctl magic via ENV INITSYSTEM
+out "Starting system services ..."
+systemctl start dbus
+systemctl start dnsmasq
+systemctl start hostapd
 
 # TODO: Network configuration
 
 # Enable IP Forwarding
+out "Enabling packet forwarding and configuring iptables ..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
 # Forwarding on eth0
-iptables -t nat -C POSTROUTING -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # On Exit.
-trap onexit SIGTERM
-trap onexit SIGKILL
+trap onexit INT TERM
 
 # we do nothing!
 while true
