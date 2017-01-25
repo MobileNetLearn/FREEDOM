@@ -16,5 +16,9 @@ COPY ./cfg/hostapd      /etc/default/hostapd
 #COPY ./bin/hostapd /usr/sbin/hostapd
 #COPY ./bin/hostapd_cli /usr/sbin/hostapd_cli
 
+# Obfsproxy support
+COPY ./bin/obfsproxy-wrapper /usr/bin/obfsproxy-wrapper
+COPY ./cfg/obfsproxy.service /lib/systemd/system/obfsproxy.service
+
 # Copy the rest.
 COPY init.sh ./

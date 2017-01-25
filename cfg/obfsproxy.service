@@ -1,0 +1,8 @@
+[Unit]
+Description=OBFSProxy
+
+[Service]
+ExecStart=/usr/bin/obfsproxy-wrapper
+
+[Install]
+WantedBy=multi-user.target
