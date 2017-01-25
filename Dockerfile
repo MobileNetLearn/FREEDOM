@@ -9,7 +9,6 @@ RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
 
 # Override config files
-COPY ./cfg/dnsmasq.conf /etc/dnsmasq.conf
 COPY ./cfg/hostapd.conf /etc/hostapd/hostapd.conf
 COPY ./cfg/hostapd      /etc/default/hostapd
 
