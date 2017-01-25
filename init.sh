@@ -15,6 +15,8 @@ out() {
 onexit() {
 	out "got SIGTERM/KILL"
 	killall openvpn hostapd
+
+	ip addr flush wlan1
 	
 	systemctl stop dnsmasq
 	systemctl stop obfsproxy
