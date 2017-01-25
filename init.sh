@@ -53,4 +53,11 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 # On Exit.
 trap onexit INT TERM
 
+
+out "starting openvpn ..."
+pushd "/config"
+openvpn /config/openvpn.ovpn >/var/log/openvpn.log  &
+popd
+
 hostapd /etc/hostapd/hostapd.conf
+
