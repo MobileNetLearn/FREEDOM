@@ -34,7 +34,6 @@ sleep 1
 out "Starting system services ..."
 systemctl start dbus
 systemctl start dnsmasq
-systemctl start hostapd
 
 # TODO: Network configuration
 
@@ -48,8 +47,4 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 # On Exit.
 trap onexit INT TERM
 
-# we do nothing!
-while true
-do
-	sleep 1
-done
+hostapd /etc/hostapd/hostapd.conf
