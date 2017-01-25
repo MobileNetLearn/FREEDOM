@@ -20,7 +20,7 @@ onexit() {
 }
 
 out "Stopping connman ..."
-systemctl stop connman 2>/dev/null || true
+systemctl stop connman
 
 # unblock wifi
 rfkill block wifi
@@ -28,7 +28,7 @@ rfkill unblock wifi
 
 # Set network IP.
 ifconfig "${IFACE}" down
-ipconfig "${IFACE}" 10.1.1.1 up
+ifconfig "${IFACE}" 10.1.1.1 up
 ifconfig "${IFACE}" up
 
 sleep 1
