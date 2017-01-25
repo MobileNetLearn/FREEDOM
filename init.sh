@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
+IFACE="${WLAN_DEVICE_NAME}"
+
+# Default IFACE to wlan1
+if [[ -z "${IFACE}" ]]; then
+	IFACE="wlan1"
+fi
 
 out() {
 	echo "INIT: $*"
@@ -12,10 +18,17 @@ onexit() {
 	systemctl stop dbus
 }
 
-# Probably not needed.
-out "Stopping any possibly conflicting services ..."
-systemctl stop connman || true
-systemctl stop NetworkManager || true
+# unblock wifi
+rfkill block wifi
+rfkill unblock wifi
+
+# Set network IP.
+ifconfig wlan1 down
+ip addr flush "${IFACE}"
+ip addr add 10.1.1.1/24 dev wlan1
+ifconfig wlan1 up
+
+sleep 1
 
 # Systemctl magic via ENV INITSYSTEM
 out "Starting system services ..."
