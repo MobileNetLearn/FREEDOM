@@ -15,6 +15,8 @@ out() {
 onexit() {
 	out "got SIGTERM/KILL"
 	killall openvpn hostapd
+	
+	systemctl stop dnsmasq
 	systemctl stop obfsproxy
 	systemctl stop dbus
 }
@@ -32,10 +34,9 @@ sleep 1
 out "Starting system services ..."
 systemctl start dbus
 systemctl start obfsproxy
+systemctl start dnsmasq
 
 sleep 2
-
-# TODO: Network configuration
 
 # Enable IP Forwarding
 out "Enabling packet forwarding and configuring iptables ..."
@@ -47,7 +48,6 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # On Exit.
 trap onexit INT TERM
-
 
 out "starting openvpn ..."
 pushd "/config"
