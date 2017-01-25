@@ -14,8 +14,7 @@ out() {
 
 onexit() {
 	out "got SIGTERM/KILL"
-	systemctl stop dnsmasq
-	systemctl stop hostapd
+	killall openvpn hostapd
 	systemctl stop dbus
 }
 
@@ -36,7 +35,6 @@ sleep 1
 # Systemctl magic via ENV INITSYSTEM
 out "Starting system services ..."
 systemctl start dbus
-systemctl start dnsmasq
 
 sleep 2
 
