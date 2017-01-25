@@ -25,11 +25,6 @@ systemctl stop connman
 rfkill block wifi
 rfkill unblock wifi
 
-# Set network IP.
-ifconfig "${IFACE}" down
-ifconfig "${IFACE}" 10.1.1.1 up
-ifconfig "${IFACE}" up
-
 sleep 1
 
 # Systemctl magic via ENV INITSYSTEM
