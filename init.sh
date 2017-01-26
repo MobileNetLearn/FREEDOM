@@ -30,9 +30,12 @@ onexit() {
 openvpn --dev tap0 --mktun
 
 ip addr flush tap0
-
 ifconfig tap0 $(cat /config/ip)
 ifconfig tap0 netmask 255.255.255.0
+
+ip addr flush wlan1
+ifconfig wlan1 $(cat /config/wifi)
+ifconfig wlan1 netmask 255.255.255.0
 
 # unblock wifi
 rfkill block wifi
@@ -63,10 +66,10 @@ out "Waiting for openvpn ... "
 sleep 15
 
 # NAT Forwarding
-#iptables -t nat -F
-#iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
-#iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
-#iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
+iptables -t nat -F
+iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
+iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 
 ifconfig tap0 up
 

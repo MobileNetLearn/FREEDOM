@@ -4,7 +4,7 @@ ENV INITSYSTEM on
 CMD ["./init.sh"]
 
 RUN apt-get update
-RUN apt-get install -y net-tools obfsproxy openvpn dbus hostapd iptables rfkill nano dhcpcd
+RUN apt-get install -y net-tools obfsproxy openvpn dbus hostapd iptables rfkill nano isc-dhcp-relay bridge-utils
 RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
 
