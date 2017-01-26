@@ -20,8 +20,5 @@ COPY ./cfg/hostapd      /etc/default/hostapd
 COPY ./bin/obfsproxy-wrapper /usr/bin/obfsproxy-wrapper
 COPY ./cfg/obfsproxy.service /lib/systemd/system/obfsproxy.service
 
-# DNS
-COPY ./cfg/resolv.conf /etc/resolv.conf
-
 # Copy the rest.
 COPY init.sh ./
