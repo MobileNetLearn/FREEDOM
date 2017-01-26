@@ -17,6 +17,8 @@ onexit() {
 	killall openvpn hostapd
 
 	ip addr flush wlan1
+	ip addr flush tap0
+	ifdown tap0
 
 	systemctl stop obfsproxy
 	systemctl stop dbus
@@ -65,10 +67,12 @@ out "Waiting for openvpn ... "
 sleep 15
 
 # NAT Forwarding
-iptables -t nat -F
-iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
-iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
+#iptables -t nat -F
+#iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
+#iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
+#iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
+
+ifup tap0
 
 hostapd /etc/hostapd/hostapd.conf
 
