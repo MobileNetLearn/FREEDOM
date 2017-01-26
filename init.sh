@@ -58,9 +58,9 @@ sleep 15
 
 
 iptables -t nat -F
-iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
 iptables -A FORWARD -i tun0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ${IFACE} -o tun0 -j ACCEPT
+iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 
 hostapd /etc/hostapd/hostapd.conf
 
