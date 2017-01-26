@@ -22,11 +22,14 @@ onexit() {
 
 	systemctl stop obfsproxy
 	systemctl stop dbus
+	systemctl stop dnsmasq
 }
 
 
 
 # Create tap0
+
+out "configuring interfaces ..."
 openvpn --dev tap0 --mktun
 
 ip addr flush tap0
@@ -47,6 +50,7 @@ sleep 1
 out "Starting system services ..."
 systemctl start dbus
 systemctl start obfsproxy
+systemctl start dnsmasq
 
 sleep 2
 
