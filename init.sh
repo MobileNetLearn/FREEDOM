@@ -22,8 +22,12 @@ onexit() {
 	systemctl stop dbus
 }
 
+
+
 # Create tap0
 openvpn --dev tap0 --mktun
+
+ip addr flush tap0
 
 ifconfig tap0 172.17.0.1
 ifconfig tap0 netmask 255.255.255.0
