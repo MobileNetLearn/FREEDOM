@@ -17,17 +17,20 @@ onexit() {
 	killall openvpn hostapd
 
 	ip addr flush wlan1
-	
-	systemctl stop dnsmasq
+
 	systemctl stop obfsproxy
 	systemctl stop dbus
 }
 
+# Create tap0
+openvpn --dev tap0 --mktun
 
-sudo ifconfig wlan1 10.2.1.1 netmask 255.255.255.0
-
-out "Stopping connman ..."
-systemctl stop connman
+ifconfig tap0 172.17.0.1
+ifconfig tap0 netmask 255.255.255.0
+ip route add 172.17.64.0/24 via 172.17.0.64
+ip route add 172.17.77.0/24 via 172.17.0.77
+ip route add 172.17.82.0/24 via 172.17.0.82
+ip route add 172.17.83.0/24 via 172.17.0.83
 
 # unblock wifi
 rfkill block wifi
@@ -39,7 +42,6 @@ sleep 1
 out "Starting system services ..."
 systemctl start dbus
 systemctl start obfsproxy
-systemctl start dnsmasq
 
 sleep 2
 
@@ -58,11 +60,11 @@ popd
 out "Waiting for openvpn ... "
 sleep 15
 
-
+# NAT Forwarding
 iptables -t nat -F
-iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE
-iptables -A FORWARD -i tun0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -i ${IFACE} -o tun0 -j ACCEPT
+iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
+iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 
 hostapd /etc/hostapd/hostapd.conf
 
