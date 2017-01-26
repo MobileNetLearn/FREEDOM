@@ -18,7 +18,6 @@ onexit() {
 
 	ip addr flush wlan1
 	
-	systemctl stop dnsmasq
 	systemctl stop obfsproxy
 	systemctl stop dbus
 }
@@ -39,7 +38,6 @@ sleep 1
 out "Starting system services ..."
 systemctl start dbus
 systemctl start obfsproxy
-systemctl start dnsmasq
 
 sleep 2
 
