@@ -3,7 +3,7 @@
 echo "Building image ..."
 docker build -t test_priv .
 
-CONTAINER_ID=$(docker run -t -d --privileged --net=host test_priv)
+CONTAINER_ID=$(docker run -t -d -v /boot/config:/config --privileged --net=host test_priv)
 echo ${CONTAINER_ID}
 
 echo "Connecting to container ..."
