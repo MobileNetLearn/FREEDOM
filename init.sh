@@ -18,7 +18,7 @@ onexit() {
 
 	ip addr flush wlan1
 	ip addr flush tap0
-	ifdown tap0
+	ifconfig tap0 down
 
 	systemctl stop obfsproxy
 	systemctl stop dbus
@@ -72,7 +72,7 @@ sleep 15
 #iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
 #iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 
-ifup tap0
+ifconfig tap0 up
 
 hostapd /etc/hostapd/hostapd.conf
 
