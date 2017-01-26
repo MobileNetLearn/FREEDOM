@@ -31,7 +31,7 @@ openvpn --dev tap0 --mktun
 
 ip addr flush tap0
 
-ifconfig tap0 172.10.0.1
+ifconfig tap0 $(cat /config/ip)
 ifconfig tap0 netmask 255.255.255.0
 
 # unblock wifi
