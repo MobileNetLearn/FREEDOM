@@ -27,5 +27,8 @@ COPY ./cfg/dnsmasq.conf /etc/dnsmasq.conf
 COPY scripts/up.sh /etc/openvpn/up.sh
 COPY scripts/down.sh /etc/openvpn/down.sh
 
+# Quick rebuild hack
+RUN apt-get install -y ifupdown
+
 # Copy the rest.
 COPY init.sh ./
