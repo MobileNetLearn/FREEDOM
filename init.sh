@@ -31,12 +31,8 @@ openvpn --dev tap0 --mktun
 
 ip addr flush tap0
 
-ifconfig tap0 172.17.0.1
+ifconfig tap0 172.10.0.1
 ifconfig tap0 netmask 255.255.255.0
-ip route add 172.17.64.0/24 via 172.17.0.64
-ip route add 172.17.77.0/24 via 172.17.0.77
-ip route add 172.17.82.0/24 via 172.17.0.82
-ip route add 172.17.83.0/24 via 172.17.0.83
 
 # unblock wifi
 rfkill block wifi
