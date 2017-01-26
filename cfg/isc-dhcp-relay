@@ -10,7 +10,7 @@
 SERVERS="10.8.0.1"
 
 # On what interfaces should the DHCP relay (dhrelay) serve DHCP requests?
-INTERFACES="wlan1"
+INTERFACES="wlan1 tap0"
 
 # Additional options that are passed to the DHCP relay daemon?
 OPTIONS=""
