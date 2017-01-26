@@ -11,6 +11,7 @@ WORKDIR /usr/src/app
 # Override config files
 COPY ./cfg/hostapd.conf /etc/hostapd/hostapd.conf
 COPY ./cfg/hostapd      /etc/default/hostapd
+COPY ./cfg/isc-dhcp-relay /etc/default/isc-dhcp-relay
 
 # Override hostapd binary
 #COPY ./bin/hostapd /usr/sbin/hostapd
