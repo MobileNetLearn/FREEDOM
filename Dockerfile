@@ -23,5 +23,9 @@ COPY ./cfg/obfsproxy.service /lib/systemd/system/obfsproxy.service
 # dnsmasq
 COPY ./cfg/dnsmasq.conf /etc/dnsmasq.conf
 
+# OpenVPN
+COPY scripts/up.sh /etc/openvpn/up.sh
+COPY scripts/down.sh /etc/openvpn/down.sh
+
 # Copy the rest.
 COPY init.sh ./
