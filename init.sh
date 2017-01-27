@@ -75,6 +75,17 @@ iptables -t nat -A POSTROUTING -o tap0 -j MASQUERADE
 iptables -A FORWARD -i tap0 -o ${IFACE}  -m state --state RELATED,ESTABLISHED -j ACCEPT
 iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 
+out "configuring routes ..."
+
+OPENVPNIP="$(cat /config/openvpn.conf | grep 'remote ' | awk '{ print $2 }')"
+DEFAULT_ROUTE="$(route -n | grep eth0 | head -n1 | awk '{ print $2 }')"
+
+out "openvpn: ${OPENVPNIP} / ${DEFAULT_ROUTE}"
+
+route add "${OPENVPNIP}" gw "${DEFAULT_ROUTE}"
+route del default gw "${DEFAULT_ROUTE}"
+route add default gw "172.10.0.1"
+
 ifconfig tap0 up
 
 hostapd /etc/hostapd/hostapd.conf
