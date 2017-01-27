@@ -20,6 +20,11 @@ onexit() {
 	ip addr flush tap0
 	ifconfig tap0 down
 
+	# Attempt to restore routing table.
+	route del default gw 172.10.0.1
+	route add default gw "$(cat /tmp/route.backup | awk '{ print $1 }')"
+	route del "$(cat /tmp/route.backup | awk '{ print $2 }')" gw "$(cat /tmp/route.backup | awk '{ print $1 }')"
+
 	systemctl stop obfsproxy
 	systemctl stop dbus
 	systemctl stop dnsmasq
@@ -85,6 +90,8 @@ out "openvpn: ${OPENVPNIP} / ${DEFAULT_ROUTE}"
 route add "${OPENVPNIP}" gw "${DEFAULT_ROUTE}"
 route del default gw "${DEFAULT_ROUTE}"
 route add default gw "172.10.0.1"
+
+echo "${DEFAULT_ROUTE} ${OPENVPNIP}" /tmp/route.backup
 
 ifconfig tap0 up
 
