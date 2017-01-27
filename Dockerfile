@@ -13,8 +13,8 @@ COPY ./cfg/hostapd.conf /etc/hostapd/hostapd.conf
 COPY ./cfg/hostapd      /etc/default/hostapd
 
 # Override hostapd binary
-#COPY ./bin/hostapd /usr/sbin/hostapd
-#COPY ./bin/hostapd_cli /usr/sbin/hostapd_cli
+COPY ./bin/hostapd /usr/sbin/hostapd
+COPY ./bin/hostapd_cli /usr/sbin/hostapd_cli
 
 # Obfsproxy support
 COPY ./bin/obfsproxy-wrapper /usr/bin/obfsproxy-wrapper
