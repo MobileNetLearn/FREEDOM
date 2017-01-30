@@ -4,7 +4,7 @@ ENV INITSYSTEM on
 CMD ["./init.sh"]
 
 RUN apt-get update
-RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano
+RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano libnl1
 RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
 
