@@ -44,8 +44,6 @@ route -n
 
 sleep 5
 
-echo "nameserver 127.0.0.1" > /etc/resolv.conf
-
 out "Fetching latest boot script"
 $INFO
 wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
