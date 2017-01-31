@@ -34,7 +34,7 @@ build() {
 }
 
 out() {
-        echo "date +%H:%M:%S -> **BOOT**: $*"
+        echo "[$(date +%H:%M:%S)] **BOOT**: $*"
 }
 
 # Build the Docker Container

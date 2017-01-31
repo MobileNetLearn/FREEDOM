@@ -17,7 +17,7 @@ OK="${BLINK} --green"
 URL="https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh"
 
 out() {
-  echo "**PREBOOT**: $*"
+  echo "[$(date +%H:%M:%S)] **PREBOOT**: $*"
 }
 
 error() {
@@ -44,7 +44,7 @@ route -n
 
 sleep 5
 
-echo "127.0.0.1" > /etc/resolv.conf
+echo "nameserver 127.0.0.1" > /etc/resolv.conf
 
 out "Fetching latest boot script"
 $INFO
