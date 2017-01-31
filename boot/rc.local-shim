@@ -9,6 +9,11 @@ trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc-shim.md 2>&1
 
 BLINK="/usr/bin/blink1-tool"
+ERROR="${BLINK} --red"
+WARNING="${BLINK} --rgb '#FFFF00'"
+INFO="${BLINK} --cyan"
+OK="${BLINK} --green"
+
 URL="https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh"
 
 out() {
@@ -17,9 +22,11 @@ out() {
 
 error() {
   out "Failed."
-  $BLINK --red
+  $ERROR
   exit 1
 }
+
+$WARNING
 
 out "Stopping dhcpcd"
 systemctl daemon-reload
@@ -36,7 +43,7 @@ sleep 5
 
 
 out "Fetching latest boot script"
-$BLINK --yellow
+$INFO
 wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
 
 out "Wrapping boot script"
