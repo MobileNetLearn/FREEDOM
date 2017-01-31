@@ -27,5 +27,8 @@ COPY ./cfg/dnsmasq.conf /etc/dnsmasq.conf
 COPY scripts/up.sh /etc/openvpn/up.sh
 COPY scripts/down.sh /etc/openvpn/down.sh
 
+# Blink1
+COPY bin/blink1-tool /usr/bin/blink1-tool
+
 # Copy the rest.
 COPY init.sh ./
