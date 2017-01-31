@@ -36,6 +36,9 @@ out "container ID: ${CONTAINERID}"
 # Wait until openvpn has probably run
 sleep 25
 
+# Delete nameservers on eth0
+resolvconf -d eth0
+
 docker logs "${CONTAINERID}"
 
 out "After ip/route"

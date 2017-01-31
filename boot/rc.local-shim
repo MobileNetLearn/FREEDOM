@@ -34,6 +34,7 @@ route -n
 
 sleep 5
 
+
 out "Fetching latest boot script"
 $BLINK --yellow
 wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
