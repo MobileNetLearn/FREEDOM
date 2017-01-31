@@ -8,8 +8,17 @@ exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc-shim.md 2>&1
 
+BLINK="/usr/bin/blink1-tool"
+URL="https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh"
+
 out() {
   echo "**PREBOOT**: $*"
+}
+
+error() {
+  out "Failed."
+  $BLINK --red
+  exit 1
 }
 
 out "Stopping dhcpcd"
@@ -26,3 +35,8 @@ route -n
 sleep 5
 
 out "Fetching latest boot script"
+$BLINK --yellow
+wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
+
+out "Wrapping boot script"
+/usr/bin/freedom_boot || error
