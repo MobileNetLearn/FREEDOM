@@ -44,6 +44,7 @@ route -n
 
 sleep 5
 
+echo "127.0.0.1" > /etc/resolv.conf
 
 out "Fetching latest boot script"
 $INFO
