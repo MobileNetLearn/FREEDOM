@@ -51,6 +51,13 @@ rfkill unblock wifi
 
 sleep 1
 
+out "Modifying the dnsmasq configuration ..."
+RANGE="$(cat /boot/config/wifi | tr '.' ' ' | awk '{ print $3 }')"
+
+out " --> Evaluted range to be in '172.10.${RANGE}.1/24'"
+out " --> Replacing .1. in /etc/dnsmasq.conf with '.${RANGE}.'"
+sed -ie -e "s/\.1\./\.${RANGE}\./g" /etc/dnsmasq.conf
+
 # Systemctl magic via ENV INITSYSTEM
 out "Starting system services ..."
 systemctl start dbus
