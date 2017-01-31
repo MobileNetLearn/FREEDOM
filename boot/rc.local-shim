@@ -32,6 +32,9 @@ out "Stopping dhcpcd"
 systemctl daemon-reload
 systemctl stop dhcpcd
 
+# Randomize our mac address.
+macchanger -e eth0
+
 # Get IP on eth0
 dhcpcd eth0
 
