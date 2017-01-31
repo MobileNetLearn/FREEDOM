@@ -27,13 +27,14 @@ build() {
         git pull
 
         out "building container"
+        $WARNING
         docker build -t test_priv .
 
         popd
 }
 
 out() {
-        echo "**BOOT**: $*"
+        echo "date +%H:%M:%S -> **BOOT**: $*"
 }
 
 # Build the Docker Container
