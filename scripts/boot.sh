@@ -8,6 +8,18 @@ exec 3>&1 4>&2# Copy the rest.
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc.md 2>&1
 
+BLINK="/usr/bin/blink1-tool"
+ERROR="${BLINK} --red"
+WARNING="${BLINK} --yellow"
+INFO="${BLINK} --cyan"
+OK="${BLINK} --green"
+
+error() {
+  out "Failed."
+  $ERROR
+  exit 1
+}
+
 build() {
         pushd "/home/pi/FREEDOM"
 
@@ -41,8 +53,20 @@ resolvconf -d eth0
 
 docker logs "${CONTAINERID}"
 
+pgrep hostapd
+if [[ $? -eq 0 ]]; then
+  $OK
+else
+  error
+fi
+
+
 out "After ip/route"
 ip addr
 route -n
+
+# Turn off blink1.
+sleep 10
+${BLINK} --off
 
 exit 0
