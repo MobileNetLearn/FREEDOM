@@ -10,7 +10,7 @@ exec 1>/boot/logs/rc-shim.md 2>&1
 
 BLINK="/usr/bin/blink1-tool"
 ERROR="${BLINK} --red"
-WARNING="${BLINK} --rgb '#FFFF00'"
+WARNING="${BLINK} --yellow"
 INFO="${BLINK} --cyan"
 OK="${BLINK} --green"
 
