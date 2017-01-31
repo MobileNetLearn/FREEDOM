@@ -8,6 +8,11 @@ exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc-shim.md 2>&1
 
+INF='eth0'
+if [[ -e '/boot/config/mode' ]]; then
+  INF="$(cat /boot/config/inf)"
+fi
+
 BLINK="/usr/bin/blink1-tool"
 ERROR="${BLINK} --red"
 WARNING="${BLINK} --yellow"
@@ -33,10 +38,15 @@ systemctl daemon-reload
 systemctl stop dhcpcd
 
 # Randomize our mac address.
-macchanger -e eth0
+macchanger -e "${INF}"
+if [[ "${INF}" != "eth0" ]]; then
+  out "Connecting to school Wi-Fi"
+  wpa_supplicant -c /boot/config/wpa_supplicant.conf -i"${INF}" &
+  sleep 5
+fi
 
 # Get IP on eth0
-dhcpcd eth0
+dhcpcd "${INF}"
 
 out "Current ip addr information"
 ip addr
