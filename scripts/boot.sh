@@ -28,21 +28,8 @@ build() {
 }
 
 out() {
-        echo "**RC**: $*"
+        echo "**BOOT**: $*"
 }
-
-
-out "Stopping dhcpcd"
-systemctl daemon-reload
-systemctl stop dhcpcd
-
-# Get IP on eth0
-dhcpcd eth0
-
-# Debugging
-out "Current ip addr information"
-ip addr
-route -n
 
 # Build the Docker Container
 build

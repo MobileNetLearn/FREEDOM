@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# (c) 2016 Jared Allard <jaredallard@outlook.com>
+#
+# Minimal Wrapper to keep this machine up-to-date w/ FREEDOM sources.
+
+exec 3>&1 4>&2
+trap 'exec 2>&4 1>&3' 0 1 2 3
+exec 1>/boot/logs/rc-shim.md 2>&1
+
+out() {
+  echo "**PREBOOT**: $*"
+}
+
+out "Stopping dhcpcd"
+systemctl daemon-reload
+systemctl stop dhcpcd
+
+# Get IP on eth0
+dhcpcd eth0
+
+out "Current ip addr information"
+ip addr
+route -n
+
+sleep 5
+
+out "Fetching latest boot script"
