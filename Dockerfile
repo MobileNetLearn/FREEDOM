@@ -30,5 +30,5 @@ COPY scripts/down.sh /etc/openvpn/down.sh
 # Blink1
 COPY bin/blink1-tool /usr/bin/blink1-tool
 
-# Copy the rest.
-COPY init.sh ./
+# Copy the INIT script.
+COPY scripts/init.sh ./
