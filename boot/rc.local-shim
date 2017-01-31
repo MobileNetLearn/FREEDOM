@@ -45,6 +45,7 @@ sleep 5
 out "Fetching latest boot script"
 $INFO
 wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
+chmod +x /usr/bin/freedom_boot
 
 out "Wrapping boot script"
 /usr/bin/freedom_boot || error
