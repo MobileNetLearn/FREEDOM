@@ -56,11 +56,13 @@ out "container ID: ${CONTAINERID}"
 sleep 25
 
 # Delete nameservers on eth0
+out "Removing namservers on ${HOST_IFACE}"
 resolvconf -d "${HOST_IFACE}"
 
 cat /etc/resolv.conf | grep 127.0.0.1
 
 if [[ $? -ne 0  ]]; then
+  out " --> Adding 127.0.0.1 to namservers"
   echo "namserver 127.0.0.1" > /etc/resolv.conf
 fi
 
