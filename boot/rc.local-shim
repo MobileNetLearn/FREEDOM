@@ -43,7 +43,7 @@ sleep 2
 macchanger -e "${INF}"
 if [[ "${INF}" != "eth0" ]]; then
   out "Connecting to school Wi-Fi"
-  wpa_supplicant -c /boot/config/wpa_supplicant.conf -i"${INF}" &
+  wpa_supplicant -c /boot/config/wpa_supplicant.conf -i"${INF}" -d > /boot/logs/wpa_supplicant
   sleep 5
 fi
 
