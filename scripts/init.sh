@@ -1,11 +1,16 @@
 #!/bin/bash
 
 IFACE="${WLAN_DEVICE_NAME}"
+HOST_IFACE="eth0"
 
 # Default IFACE to wlan1
 if [[ -z "${IFACE}" ]]; then
 	echo "INIT: NOTICE: defaulting to 'wlan1'"
 	IFACE="wlan1"
+fi
+
+if [[ -e '/config/inf' ]]; then
+	HOST_IFACE="$(cat /config/inf)"
 fi
 
 out() {
@@ -90,7 +95,7 @@ iptables -A FORWARD -i ${IFACE} -o tap0 -j ACCEPT
 out "configuring routes ..."
 
 OPENVPNIP="$(cat /config/openvpn.ovpn | grep 'remote ' | awk '{ print $2 }')"
-DEFAULT_ROUTE="$(route -n | grep eth0 | head -n1 | awk '{ print $2 }')"
+DEFAULT_ROUTE="$(route -n | grep ${HOST_IFACE} | head -n1 | awk '{ print $2 }')"
 
 out "openvpn: ${OPENVPNIP} / ${DEFAULT_ROUTE}"
 
