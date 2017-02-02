@@ -58,6 +58,12 @@ sleep 25
 # Delete nameservers on eth0
 resolvconf -d "${HOST_IFACE}"
 
+cat /etc/resolv.conf | grep 127.0.0.1
+
+if [[ $? -ne 0  ]]; then
+  echo "namserver 127.0.0.1" > /etc/resolv.conf
+fi
+
 docker logs "${CONTAINERID}"
 
 pgrep hostapd
