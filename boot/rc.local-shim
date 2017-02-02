@@ -48,7 +48,7 @@ if [[ "${INF}" != "eth0" ]]; then
 fi
 
 # Get IP on eth0
-dhcpcd "${INF}" || error
+dhcpcd -4 "${INF}" || error
 
 out "Current ip addr information"
 ip addr
