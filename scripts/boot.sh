@@ -14,6 +14,12 @@ WARNING="${BLINK} --yellow"
 INFO="${BLINK} --cyan"
 OK="${BLINK} --green"
 
+HOST_IFACE="eth0"
+
+if [[ -e '/boot/config/inf' ]]; then
+	HOST_IFACE="$(cat /boot/config/inf)"
+fi
+
 error() {
   out "Failed."
   $ERROR
@@ -50,7 +56,7 @@ out "container ID: ${CONTAINERID}"
 sleep 25
 
 # Delete nameservers on eth0
-resolvconf -d eth0
+resolvconf -d "${HOST_IFACE}"
 
 docker logs "${CONTAINERID}"
 
