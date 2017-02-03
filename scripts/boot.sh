@@ -52,8 +52,8 @@ CONTAINERID="$(${CMD} | tr -d '\n')"
 
 out "container ID: ${CONTAINERID}"
 
-# Wait until openvpn has probably run
-sleep 25
+# Wait for tap0 IP.
+until ping -c1 172.10.0.1 &>/dev/null; do :; done
 
 # Delete nameservers on eth0
 out "Removing namservers on ${HOST_IFACE}"
@@ -62,7 +62,7 @@ resolvconf -d "${HOST_IFACE}"
 cat /etc/resolv.conf | grep 127.0.0.1
 
 if [[ $? -ne 0  ]]; then
-  out " --> Adding 127.0.0.1 to namservers"
+  out " --> Adding 127.0.0.1 to resolv.conf"
   echo "namserver 127.0.0.1" > /etc/resolv.conf
 fi
 
