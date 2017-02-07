@@ -35,6 +35,7 @@ build() {
 		git clone https://github.com/diederikdehaas/rtl8812AU rtl8812AU
 	fi
 
+	out "--> pushd 'rtl8812AU'"
 	pushd "rtl8812AU"
 
 	out "--> checkout 'driver-4.3.20'"
@@ -43,7 +44,8 @@ build() {
 
 	out "--> make"
 	make -j4
-
+	make install
+	
 	popd
 
 	popd
@@ -63,6 +65,8 @@ build() {
 out() {
         echo "[$(date +%H:%M:%S)] **BOOT**: $*"
 }
+
+cat /etc/resolv.conf
 
 # Build the Docker Container
 build
