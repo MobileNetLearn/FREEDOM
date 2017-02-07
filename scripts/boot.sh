@@ -68,6 +68,8 @@ fi
 
 docker logs "${CONTAINERID}"
 
+sleep 20
+
 pgrep hostapd
 if [[ $? -eq 0 ]]; then
   $OK
