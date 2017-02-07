@@ -44,6 +44,8 @@ build() {
 
 	out "--> make"
 	make -j4
+
+	out "--> make install"
 	make install
 
 	popd
