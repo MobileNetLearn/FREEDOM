@@ -27,16 +27,37 @@ error() {
 }
 
 build() {
-        pushd "/home/pi/FREEDOM"
+	pushd "/home/pi"
 
-        out "pulling sources"
-        git pull
+	out "building rtl8812au"
 
-        out "building container"
-        $WARNING
-        docker build -t test_priv .
+	if [[ ! -e "./rtl8812AU" ]]; then
+		git clone https://github.com/diederikdehaas/rtl8812AU rtl8812AU
+	fi
 
-        popd
+	pushd "rtl8812AU"
+
+	out "--> checkout 'driver-4.3.20'"
+	git checkout driver-4.3.20
+	git pull
+
+	out "--> make"
+	make -j4
+
+	popd
+
+	popd
+
+  pushd "/home/pi/FREEDOM"
+
+  out "pulling sources"
+  git pull
+
+	out "building container"
+  $WARNING
+  docker build -t test_priv .
+
+  popd
 }
 
 out() {
