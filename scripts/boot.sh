@@ -20,6 +20,9 @@ if [[ -e '/boot/config/inf' ]]; then
 	HOST_IFACE="$(cat /boot/config/inf)"
 fi
 
+out "modprobe '8812au'"
+modprobe 8812au
+
 error() {
   out "Failed."
   $ERROR

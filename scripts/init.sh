@@ -71,6 +71,10 @@ systemctl start dnsmasq
 
 sleep 2
 
+
+out "ip addr"
+ip addr
+
 # Enable IP Forwarding
 out "Enabling packet forwarding and configuring iptables ..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
