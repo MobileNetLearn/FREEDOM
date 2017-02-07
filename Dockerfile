@@ -1,7 +1,7 @@
 FROM resin/rpi-raspbian:latest
 
 ENV INITSYSTEM on
-ENTRYPOINT ["./init.sh"]
+ENTRYPOINT ["/usr/src/app/init.sh"]
 
 RUN apt-get update
 RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano iputils-ping

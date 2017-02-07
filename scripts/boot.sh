@@ -32,7 +32,7 @@ build() {
 	out "building rtl8812au"
 
 	if [[ ! -e "./rtl8812AU" ]]; then
-		git clone https://github.com/diederikdehaas/rtl8812AU rtl8812AU
+		git clone https://github.com/jaredallard/rtl8812AU rtl8812AU
 	fi
 
 	out "--> pushd 'rtl8812AU'"
@@ -80,6 +80,7 @@ CONTAINERID="$(${CMD} | tr -d '\n')"
 out "container ID: ${CONTAINERID}"
 
 # Wait for tap0 IP.
+out "waiting for 172.10.0.1 ..."
 until ping -c1 172.10.0.1 &>/dev/null; do :; done
 
 # Delete nameservers on eth0
