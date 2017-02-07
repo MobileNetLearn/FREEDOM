@@ -63,7 +63,7 @@ cat /etc/resolv.conf | grep 127.0.0.1
 
 if [[ $? -ne 0  ]]; then
   out " --> Adding 127.0.0.1 to resolv.conf"
-  echo "namserver 127.0.0.1" > /etc/resolv.conf
+  echo "nameserver 127.0.0.1" > /etc/resolv.conf
 fi
 
 docker logs "${CONTAINERID}"
