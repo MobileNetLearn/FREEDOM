@@ -79,7 +79,7 @@ cat /etc/resolv.conf
 build
 
 # Pull the Docker Image
-CMD="docker run -t -d -v /etc/resolv.conf:/etc/resolv.conf -v /boot/config:/config --privileged --net=host test_priv"
+CMD="docker run -t -d -v /etc/resolv.conf:/etc/resolv.conf -v /sys/fs/cgroup:/sys/fs/cgroup -v /boot/config:/config --privileged --net=host test_priv"
 CONTAINERID="$(${CMD} | tr -d '\n')"
 
 out "container ID: ${CONTAINERID}"

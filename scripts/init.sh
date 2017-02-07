@@ -84,7 +84,7 @@ trap onexit INT TERM
 
 out "starting openvpn ..."
 pushd "/config"
-openvpn /config/openvpn.ovpn >/var/log/openvpn.log  &
+openvpn /config/openvpn.ovpn >/config/logs/openvpn.log  &
 popd
 
 out "Waiting for openvpn ... "
