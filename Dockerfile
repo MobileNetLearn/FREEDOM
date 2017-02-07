@@ -1,10 +1,10 @@
 FROM resin/rpi-raspbian:latest
 
 ENV INITSYSTEM on
-CMD ["./init.sh"]
+ENTRYPOINT ["./init.sh"]
 
 RUN apt-get update
-RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano libnl1 iputils-ping
+RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano iputils-ping
 RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
 
