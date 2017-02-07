@@ -81,6 +81,12 @@ out "container ID: ${CONTAINERID}"
 
 # Wait for tap0 IP.
 out "waiting for 172.10.0.1 ..."
+
+sleep 5
+
+out "--> docker logs '${CONTAINERID}'"
+docker logs "${CONTAINERID}"
+
 until ping -c1 172.10.0.1 &>/dev/null; do :; done
 
 # Delete nameservers on eth0
