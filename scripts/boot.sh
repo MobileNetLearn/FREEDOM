@@ -45,7 +45,7 @@ build() {
 	out "--> make"
 	make -j4
 	make install
-	
+
 	popd
 
 	popd
@@ -54,6 +54,8 @@ build() {
 
   out "pulling sources"
   git pull
+
+	docker rmi test_priv
 
 	out "building container"
   $WARNING
