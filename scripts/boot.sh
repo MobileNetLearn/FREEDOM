@@ -58,7 +58,9 @@ build() {
   pushd "/home/pi/FREEDOM"
 
   out "pulling sources"
-  git pull || error
+  git pull || $ERROR
+
+	sleep 2
 
 	docker rmi test_priv
 
