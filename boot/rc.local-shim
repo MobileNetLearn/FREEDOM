@@ -4,13 +4,15 @@
 #
 # Minimal Wrapper to keep this machine up-to-date w/ FREEDOM sources.
 
-VERSION="1.0.0"
-
 exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc-shim.md 2>&1
 
+# META
+VERSION="1.0.0"
 INF='eth0'
+
+# Custom interface support.
 if [[ -e '/boot/config/inf' ]]; then
   INF="$(cat /boot/config/inf)"
 fi
@@ -46,6 +48,12 @@ sleep 2
 out "Current interfaces"
 ip addr
 ifconfig
+
+out "/etc/network/interfaces"
+cat /etc/network/interfaces
+
+out "dmesg output"
+dmesg
 
 # Randomize our mac address.
 out "Changing mac address"
