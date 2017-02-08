@@ -58,13 +58,17 @@ build() {
   pushd "/home/pi/FREEDOM"
 
   out "pulling sources"
-	until git pull
+
+	git pull
+	until [[ $? -eq 0 ]]
 	do
 		$WARNING
 	  out "Failed to pull sources .... Trying again in 2 seconds."
 		sleep 1
 		$ERROR
 		sleep 1
+
+		git pull
 	done
 
 	sleep 2
