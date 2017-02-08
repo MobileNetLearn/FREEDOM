@@ -1,7 +1,16 @@
 #!/bin/bash
-#
-# Systemd support.
-#
+IFACE="${WLAN_DEVICE_NAME}"
+HOST_IFACE="eth0"
+
+# Default IFACE to wlan1
+if [[ -z "${IFACE}" ]]; then
+	echo "INIT: NOTICE: defaulting to 'wlan1'"
+	IFACE="wlan1"
+fi
+
+if [[ -e '/config/inf' ]]; then
+	HOST_IFACE="$(cat /config/inf)"
+fi
 
 out() {
 	echo "INIT: $*"
@@ -25,81 +34,7 @@ onexit() {
 	systemctl stop dnsmasq
 }
 
-function remove_buildtime_env_var()
-{
-	unset QEMU_CPU
-}
 
-function update_hostname()
-{
-	HOSTNAME="$HOSTNAME-${RESIN_DEVICE_UUID:0:7}"
-	echo $HOSTNAME > /etc/hostname
-	echo "127.0.1.1 $HOSTNAME" >> /etc/hosts
-	hostname "$HOSTNAME"
-}
-
-function mount_dev()
-{
-	out "mounting tmp dev"
-	mkdir -p /tmp
-	mount -t devtmpfs none /tmp
-	mkdir -p /tmp/shm
-	mount --move /dev/shm /tmp/shm
-	mkdir -p /tmp/mqueue
-	mount --move /dev/mqueue /tmp/mqueue
-	mkdir -p /tmp/pts
-	mount --move /dev/pts /tmp/pts
-	touch /tmp/console
-	mount --move /dev/console /tmp/console
-	umount /dev || true
-	mount --move /tmp /dev
-
-	# Since the devpts is mounted with -o newinstance by Docker, we need to make
-	# /dev/ptmx point to its ptmx.
-	# ref: https://www.kernel.org/doc/Documentation/filesystems/devpts.txt
-	ln -sf /dev/pts/ptmx /dev/ptmx
-	mount -t debugfs nodev /sys/kernel/debug
-}
-
-function init_systemd()
-{
-	GREEN='\033[0;32m'
-	echo -e "${GREEN}Systemd init system enabled."
-	env > /etc/docker.env
-
-	mkdir -p /etc/systemd/system/launch.service.d
-	cat <<-EOF > /etc/systemd/system/launch.service.d/override.conf
-		[Service]
-		WorkingDirectory=$(pwd)
-	EOF
-
-	out "starting init"
-	/sbin/init quiet systemd.show_status=0 &
-}
-
-remove_buildtime_env_var
-update_hostname
-mount_dev
-init_systemd
-
-tput sgr0
-
-################################################################################
-# Setup
-#
-
-IFACE="${WLAN_DEVICE_NAME}"
-HOST_IFACE="eth0"
-
-# Default IFACE to wlan1
-if [[ -z "${IFACE}" ]]; then
-	echo "INIT: NOTICE: defaulting to 'wlan1'"
-	IFACE="wlan1"
-fi
-
-if [[ -e '/config/inf' ]]; then
-	HOST_IFACE="$(cat /config/inf)"
-fi
 
 # Create tap0
 
