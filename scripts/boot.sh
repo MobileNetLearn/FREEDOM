@@ -13,6 +13,7 @@ ERROR="${BLINK} --red"
 WARNING="${BLINK} --yellow"
 INFO="${BLINK} --cyan"
 OK="${BLINK} --green"
+FIRM="${BLINK} --rgb=#b0baa7"
 
 HOST_IFACE="eth0"
 
@@ -80,6 +81,15 @@ build() {
   docker build --rm -t test_priv .
 
   popd
+
+	$FIRM
+	out "updating host device"
+	apt-get update
+	apt-get dist-upgrade -y
+
+	out "updating host firmware"
+	apt-get install -y rpi-update
+	rpi-update
 }
 
 out() {
