@@ -15,6 +15,7 @@ INFO="${BLINK} --cyan"
 OK="${BLINK} --green"
 FIRM="${BLINK} --rgb=#b0baa7"
 
+DEBIAN_FRONTEND=noninteractive
 HOST_IFACE="eth0"
 
 if [[ -e '/boot/config/inf' ]]; then
@@ -89,6 +90,7 @@ build() {
 	out "updating host firmware"
 	apt-get install -y rpi-update
 	rpi-update
+	$WARNING
 }
 
 out() {
