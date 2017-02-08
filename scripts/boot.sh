@@ -77,11 +77,10 @@ build() {
 	# Clean up last state.
 	out "cleaning docker containers ..."
 	docker rm $(docker ps -aq)
-	docker rmi test_priv
 
 	out "building container"
   $WARNING
-  docker build -t test_priv .
+  docker build --rm -t test_priv .
 
   popd
 }

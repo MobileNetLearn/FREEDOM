@@ -110,4 +110,4 @@ echo "${DEFAULT_ROUTE} ${OPENVPNIP}" | tee /tmp/route.backup
 
 ifconfig tap0 up
 
-hostapd /etc/hostapd/hostapd.conf
+hostapd /etc/hostapd/hostapd.conf | tee /logs/hostapd.log
