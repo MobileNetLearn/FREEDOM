@@ -131,12 +131,13 @@ docker logs "${CONTAINERID}"
 
 sleep 20
 
-pgrep hostapd
-if [[ $? -eq 0 ]]; then
-  $OK
-else
-  error
-fi
+out "Waiting for hostapd"
+echo ""
+until pgrep hostapd
+do
+	echo -n "."
+	sleep 2
+done
 
 
 out "After ip/route"
