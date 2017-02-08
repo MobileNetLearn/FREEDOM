@@ -58,10 +58,16 @@ build() {
   pushd "/home/pi/FREEDOM"
 
   out "pulling sources"
-  git pull || $ERROR
+	until git pull
+	do
+	  out "Failed to pull sources .... Trying again in 2 seconds."
+		sleep 2
+	done
 
 	sleep 2
 
+	# Clean up last state.
+	docker rm $(docker ps -aq)
 	docker rmi test_priv
 
 	out "building container"
