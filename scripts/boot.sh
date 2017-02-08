@@ -60,8 +60,11 @@ build() {
   out "pulling sources"
 	until git pull
 	do
+		$WARNING
 	  out "Failed to pull sources .... Trying again in 2 seconds."
-		sleep 2
+		sleep 1
+		$ERROR
+		sleep 1
 	done
 
 	sleep 2
@@ -101,6 +104,11 @@ out "--> docker logs '${CONTAINERID}'"
 docker logs "${CONTAINERID}"
 
 until ping -c1 172.10.0.1 &>/dev/null; do :; done
+
+
+################################################################################
+#
+# POST VPN SETUP
 
 # Delete nameservers on eth0
 out "Removing namservers on ${HOST_IFACE}"
