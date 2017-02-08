@@ -4,6 +4,8 @@
 #
 # Minimal Wrapper to keep this machine up-to-date w/ FREEDOM sources.
 
+VERSION="1.0.0"
+
 exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/boot/logs/rc-shim.md 2>&1
@@ -31,33 +33,43 @@ error() {
   exit 1
 }
 
+out "init v${VERSION} starting up!"
+
 $WARNING
 
 out "Stopping dhcpcd"
 systemctl daemon-reload
 systemctl stop dhcpcd
-
 sleep 2
 
 # Randomize our mac address.
+out "Changing mac address"
+ifconfig "${INF}" down
 macchanger -e "${INF}"
+ifconfig "${INF}" up
+
 if [[ "${INF}" != "eth0" ]]; then
   out "Connecting to school Wi-Fi"
   wpa_supplicant -B -Dnl80211 -i"${INF}" -c /boot/config/wpa_supplicant.conf > /boot/logs/wpa_supplicant
 fi
 
 # Get IP on eth0
+out "Running dhcpcd on '${INF}'"
 dhcpcd -4 "${INF}" || error
 
 out "Current ip addr information"
 ip addr
 route -n
 
-sleep 3
-
-out "Fetching latest boot script"
 $INFO
-wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh || error
+out "Fetching latest boot script"
+until wget -O/usr/bin/freedom_boot https://raw.githubusercontent.com/jaredallard/FREEDOM/master/scripts/boot.sh
+do
+  out "Failed to download boot script. Waiting 2 seconds."
+  sleep 2
+done
+
+$WARNING
 chmod +x /usr/bin/freedom_boot
 
 out "Wrapping boot script"
