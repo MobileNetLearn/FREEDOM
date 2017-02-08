@@ -1,12 +1,14 @@
 FROM resin/rpi-raspbian:latest
 
-ENV INITSYSTEM on
-ENTRYPOINT ["/usr/src/app/init.sh"]
-
+# Update the container
 RUN apt-get update
 RUN apt-get install -y net-tools obfsproxy dnsmasq openvpn dbus hostapd iptables rfkill nano iputils-ping
 RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
+
+# Systemd + init script.
+ENV INITSYSTEM on
+CMD ["/usr/src/app/init.sh"]
 
 # Override config files
 COPY ./cfg/hostapd.conf /etc/hostapd/hostapd.conf
