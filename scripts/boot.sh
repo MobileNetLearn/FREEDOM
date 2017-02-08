@@ -21,7 +21,6 @@ if [[ -e '/boot/config/inf' ]]; then
 	HOST_IFACE="$(cat /boot/config/inf)"
 fi
 
-
 error() {
   out "Failed."
   $ERROR
@@ -152,7 +151,6 @@ do
 	echo -n "."
 	sleep 2
 done
-
 
 out "After ip/route"
 ip addr
