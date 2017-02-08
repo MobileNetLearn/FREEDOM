@@ -2,6 +2,11 @@
 IFACE="${WLAN_DEVICE_NAME}"
 HOST_IFACE="eth0"
 
+# For some devices with odd configs.
+if [[ -e "/config/out_inf" ]]; then
+	IFACE="$(cat /config/out_inf)"
+fi
+
 # Default IFACE to wlan1
 if [[ -z "${IFACE}" ]]; then
 	echo "INIT: NOTICE: defaulting to 'wlan1'"

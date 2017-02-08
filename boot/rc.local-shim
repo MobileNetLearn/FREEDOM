@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# (c) 2016 Jared Allard <jaredallard@outlook.com>
+# Freedom "bootloader" of sorts.
 #
 # Minimal Wrapper to keep this machine up-to-date w/ FREEDOM sources.
 
@@ -40,7 +40,12 @@ $WARNING
 out "Stopping dhcpcd"
 systemctl daemon-reload
 systemctl stop dhcpcd
+
 sleep 2
+
+out "Current interfaces"
+ip addr
+ifconfig
 
 # Randomize our mac address.
 out "Changing mac address"

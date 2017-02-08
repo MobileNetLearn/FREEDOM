@@ -69,8 +69,7 @@ build() {
 		out "--> git pull"
 		git pull
 	done
-
-	sleep 2
+	$WARNING
 
 	# Clean up last state.
 	out "cleaning docker containers ..."
