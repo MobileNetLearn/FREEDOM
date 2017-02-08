@@ -68,12 +68,14 @@ build() {
 		$ERROR
 		sleep 1
 
+		out "--> git pull"
 		git pull
 	done
 
 	sleep 2
 
 	# Clean up last state.
+	out "cleaning docker containers ..."
 	docker rm $(docker ps -aq)
 	docker rmi test_priv
 
