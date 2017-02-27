@@ -79,9 +79,26 @@ EOF
 out "SSH Config"
 cat ~/.ssh/config
 
+out "adding sshkey to known_hosts"
+cat << EOF > ~/.ssh/known_hosts
+|1|NnnUIzLZsQJIlvo6z8LaJiJkOLo=|87vKUCfY7WmJZWdOiIc8RBBkZ5o= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJpkeIV3flMfVJBgSksaCgZpWdQWJJNPeLAb3jzjy3K8gXfBrfn0gfX47180CK8PgPoRkKEOWGtw2p7zNKMsnHo=
+EOF
+
+out "setting up itables rules"
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+# NAT 
+iptables -t nat -P PREROUTING ACCEPT
+iptables -t nat -P INPUT ACCEPT
+iptables -t nat -P OUTPUT ACCEPT
+iptables -t nat -P POSTROUTING ACCEPT
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
 # Start sshuttle
 out "tunnelling to 'tunnel@$IP'"
-sshuttle -D -r "tunnel@$IP" 0.0.0.0/0 -vv --dns
+sshuttle -D -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns
 
 sleep 5
 
