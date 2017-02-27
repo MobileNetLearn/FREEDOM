@@ -2,7 +2,7 @@ FROM resin/rpi-raspbian:latest
 
 # Update the container
 RUN apt-get update
-RUN apt-get install -y net-tools obfsproxy dnsmasq dbus hostapd iptables rfkill nano iputils-ping sshuttle netcat-openbsd
+RUN apt-get install -y net-tools obfsproxy dnsmasq dbus hostapd iptables rfkill nano iputils-ping sshuttle netcat-openbsd openssh-client
 RUN mkdir -p /FREEDOM
 WORKDIR /usr/src/app
 
