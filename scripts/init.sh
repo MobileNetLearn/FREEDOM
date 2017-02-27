@@ -77,7 +77,9 @@ out "SSH Config"
 cat ~/.ssh/config
 
 # Start sshuttle
-sshuttle -r "root@$IP" 0.0.0.0/0 -vv --dns > /logs/sshuttle.log
+sshuttle -D -r "tunnel@$IP" 0.0.0.0/0 -vv --dns
+
+sleep 5
 
 # On Exit.
 trap onexit INT TERM
