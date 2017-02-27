@@ -26,9 +26,7 @@ onexit() {
 	out "got SIGTERM/KILL"
 	killall openvpn hostapd sshuttle
 
-	ip addr flush wlan1
-	ip addr flush tap0
-	ifconfig tap0 down
+	ifconfig wlan1 0.0.0.0
 
 	systemctl stop obfsproxy
 	systemctl stop dbus
@@ -40,7 +38,7 @@ onexit() {
 # Create tap0
 
 out "configuring interfaces ..."
-ip addr flush wlan1
+ifconfig wlan1 0.0.0.0
 ifconfig wlan1 172.10.1.1
 ifconfig wlan1 netmask 255.255.255.0
 
@@ -60,9 +58,8 @@ systemctl start dnsmasq
 
 sleep 2
 
-
-out "ip addr"
-ip addr
+out "ifconfig"
+ifconfig
 
 # Enable IP Forwarding
 out "Enabling packet forwarding and configuring iptables ..."
@@ -80,10 +77,10 @@ out "SSH Config"
 cat ~/.ssh/config
 
 # Start sshuttle
-sshuttle -r "root@$IP" 0.0.0.0/0 -v --dns > tee /logs/sshuttle.log
+sshuttle -r "root@$IP" 0.0.0.0/0 -vv --dns > /logs/sshuttle.log
 
 # On Exit.
 trap onexit INT TERM
 ifconfig tap0 up
 
-hostapd /etc/hostapd/hostapd.conf > tee /logs/hostapd.log
+hostapd /etc/hostapd/hostapd.conf > /logs/hostapd.log
