@@ -76,11 +76,14 @@ Host ${IP}
   ProxyCommand nc -X 5 -x 127.0.0.1:9990 %h 1196
 EOF
 
+out "SSH Config"
+cat ~/.ssh/config
+
 # Start sshuttle
-sshuttle -r root@${IP} 0.0.0.0/0 -v --dns | tee /logs/sshuttle.log
+sshuttle -r "root@$IP" 0.0.0.0/0 -v --dns > tee /logs/sshuttle.log
 
 # On Exit.
 trap onexit INT TERM
 ifconfig tap0 up
 
-hostapd /etc/hostapd/hostapd.conf | tee /logs/hostapd.log
+hostapd /etc/hostapd/hostapd.conf > tee /logs/hostapd.log
