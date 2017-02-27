@@ -65,11 +65,14 @@ ifconfig
 out "Enabling packet forwarding and configuring iptables ..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
+cp -v /config/ssh /tmp/ssh
+chmod 0600 /tmp/ssh
+
 out "Generating ssh config"
 mkdir -p ~/.ssh
 cat << EOF > ~/.ssh/config
 Host ${IP}
-  IdentityFile /config/ssh
+  IdentityFile /tmp/ssh
   ProxyCommand nc -X 5 -x 127.0.0.1:9990 %h 1196
 EOF
 
@@ -77,6 +80,7 @@ out "SSH Config"
 cat ~/.ssh/config
 
 # Start sshuttle
+out "tunnelling to 'tunnel@$IP'"
 sshuttle -D -r "tunnel@$IP" 0.0.0.0/0 -vv --dns
 
 sleep 5
