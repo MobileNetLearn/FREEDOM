@@ -83,7 +83,9 @@ build() {
   popd
 
 	$FIRM
-	out "updating host device"
+	sudo dpkg --configure -a
+		
+out "updating host device"
 	apt-get update
 	apt-get dist-upgrade -y
 
