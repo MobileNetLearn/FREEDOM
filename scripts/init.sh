@@ -98,7 +98,7 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Start sshuttle
 out "tunnelling to 'tunnel@$IP'"
-sshuttle -D -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns
+sshuttle -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns & 
 
 sleep 5
 
