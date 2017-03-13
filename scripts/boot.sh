@@ -127,11 +127,7 @@ sleep 5
 out "--> docker logs '${CONTAINERID}'"
 docker logs "${CONTAINERID}"
 
-until ping -c1 172.10.0.1 &>/dev/null; do :; done
-
-
-################################################################################
-# POST VPN SETUP
+sleep 5
 
 # Delete nameservers on eth0
 out "Removing namservers on ${HOST_IFACE}"
