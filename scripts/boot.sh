@@ -160,4 +160,7 @@ route -n
 sleep 10
 ${BLINK} --off
 
+# Follow the logs
+docker logs --follow "${CONTAINERID}"
+
 exit 0
