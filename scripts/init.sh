@@ -102,7 +102,7 @@ sshuttle -D -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns
 
 sleep 5
 
-# On Exit.
+# On Exit. Just
 trap onexit INT TERM
 ifconfig tap0 up
 
