@@ -121,8 +121,8 @@ if true; then
 	service ntp start
 	
 	out " --> Verifying certificates ..."
-	apt-get install -y ca-certificates
-	update-ca-certificates
+	apt-get install --reinstall -y ca-certificates
+	update-ca-certificates -f 
 	
 	out " --> Installing 'blink1-tool' from git"
 	wget https://github.com/jaredallard/FREEDOM/raw/master/bin/blink1-tool -O /usr/bin/blink1-tool
