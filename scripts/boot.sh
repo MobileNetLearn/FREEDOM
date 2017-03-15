@@ -62,7 +62,7 @@ build() {
 	until [[ $? -eq 0 ]]
 	do
 		$WARNING
-	  out "Failed to pull sources .... Trying again in 2 seconds."
+	        out "Failed to pull sources .... Trying again in 2 seconds."
 		sleep 1
 		$ERROR
 		sleep 1
@@ -119,9 +119,6 @@ CONTAINERID="$(${CMD} | tr -d '\n')"
 
 out "container ID: ${CONTAINERID}"
 
-# Wait for tap0 IP.
-out "waiting for 172.10.0.1 ..."
-
 sleep 5
 
 out "--> docker logs '${CONTAINERID}'"
@@ -161,6 +158,7 @@ sleep 10
 ${BLINK} --off
 
 # Follow the logs
+out "Following docker container logs ..."
 docker logs --follow "${CONTAINERID}"
 
 exit 0
