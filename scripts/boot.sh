@@ -113,7 +113,7 @@ if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then
 	
 	out " --> Installing core essentials"
 	apt-get update
-	apt-get install curl git
+	apt-get install -y curl git
 	
 	out " --> Installing docker"
 	curl -sSL https://get.docker.com | sh
