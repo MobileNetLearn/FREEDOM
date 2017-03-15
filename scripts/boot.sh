@@ -103,7 +103,7 @@ cat /etc/resolv.conf
 
 ######
 # Check for docker.
-if [[ ! -e "/bin/git" ]]; then 
+if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then 
 	out "Provisoning new device"
 	
 	out " --> Installing 'blink1-tool' from git"
