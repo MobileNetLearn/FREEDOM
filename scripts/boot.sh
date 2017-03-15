@@ -81,18 +81,6 @@ build() {
   docker build --rm -t test_priv .
 
   popd
-
-	$FIRM
-	sudo dpkg --configure -a
-		
-        out "updating host device"
-	apt-get update
-	apt-get dist-upgrade -y
-
-	out "updating host firmware"
-	apt-get install -y rpi-update
-	rpi-update
-	$WARNING
 }
 
 out() {
@@ -110,7 +98,7 @@ out "Disabling ufw, if needed"
 ufw allow ssh || out "--> Wasn't able to allow ssh (already enabled?)"
 ufw disable || out "--> Wasn't able to disable ufw (already disabled?)"
 
-outt "/etc/resolv.conf contents"
+out "/etc/resolv.conf contents"
 cat /etc/resolv.conf
 
 # Build the Docker Container
@@ -137,6 +125,7 @@ if [[ $? -ne 0  ]]; then
   echo "nameserver 127.0.0.1" > /etc/resolv.conf
 fi
 
+out "Waiting 20 seconds ..."
 sleep 20
 
 out "ip addr / route -n after hostapd setup"
