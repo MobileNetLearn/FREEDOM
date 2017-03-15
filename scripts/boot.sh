@@ -55,8 +55,6 @@ build() {
 	popd
 
   pushd "/home/pi/FREEDOM"
-  
-  out "It is: $(date +%c)"
 
   out "pulling sources"
 
@@ -93,6 +91,8 @@ out() {
 # MAIN                                                                         #
 ################################################################################
 
+out "It is: $(date +%c)"
+
 out "modprobe '8812au'"
 modprobe 8812au
 
@@ -119,6 +119,7 @@ if true; then
 	
 	out "      --> Starting 'ntp'"
 	service ntp start
+	ntpdate -s ntp.ubuntu.com # Fallback for some distros?
 	
 	out " --> Verifying certificates ..."
 	apt-get install --reinstall -y ca-certificates
