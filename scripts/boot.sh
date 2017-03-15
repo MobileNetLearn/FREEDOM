@@ -19,7 +19,23 @@ DEBIAN_FRONTEND=noninteractive
 HOST_IFACE="eth0"
 
 if [[ -e '/boot/config/inf' ]]; then
+	if [[ -e '/etc/modprobe.d/raspi-blacklist.conf' ]]; then
+		echo "NOTICE: Unblacklisting the internal wifi card, set to use custom inf"
+		rm /etc/modprobe.d/raspi-blacklist.conf
+		
+		echo "System is going down NOW"
+		reboot
+	fi
+	
+	# Set interface
 	HOST_IFACE="$(cat /boot/config/inf)"
+elif [[ ! -e '/etc/modprobe.d/raspi-blacklist.conf' ]]; then
+	echo "NOTICE: Blacklisting the internal wifi card, not setup to use it."
+	
+	echo "blacklist brcmfmac" > /etc/modprobe.d/raspi-blacklist.conf
+	echo "blacklist brcmutil" >> /etc/modprobe.d/raspi-blacklist.conf
+	echo "System is going down NOW"
+	reboot
 fi
 
 error() {
