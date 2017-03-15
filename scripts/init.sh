@@ -89,10 +89,13 @@ out "setting up itables rules"
 #iptables -P FORWARD ACCEPT
 #iptables -P OUTPUT ACCEPT
 
-# NAT 
+# NAT
+# out "--> Setting up NAT rules"
 #iptables -t nat -P PREROUTING ACCEPT
 #iptables -t nat -P INPUT ACCEPT
 #iptables -t nat -P OUTPUT ACCEPT
+
+out "--> Setting up postrouting rules"
 iptables -t nat -P POSTROUTING ACCEPT
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
