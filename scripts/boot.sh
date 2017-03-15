@@ -112,10 +112,12 @@ if true; then
 	out " --> Syncing time"
 	out "     --> Timezone set to 'America/Los_Angeles'"
 	timedatectl set-timezone America/Los_Angeles
+	
 	out "     --> Installing 'ntp'"
-	apt-get update
-	apt-get install -y ntp
-	out"      --> Starting 'ntp'"
+	apt-get update >/dev/null
+	apt-get install -y ntp apt-transport-https
+	
+	out "      --> Starting 'ntp'"
 	service ntp start
 	
 	out " --> Verifying certificates ..."
