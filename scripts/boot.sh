@@ -133,6 +133,10 @@ sudo service ntp start
 
 out "It is: $(date +%c)"
 
+out "Running rpi-update"
+apt-get install -y rpi-update
+rpi-update
+
 out "modprobe '8812au'"
 modprobe 8812au
 
