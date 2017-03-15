@@ -85,14 +85,14 @@ cat << EOF > ~/.ssh/known_hosts
 EOF
 
 out "setting up itables rules"
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
-iptables -P OUTPUT ACCEPT
+#iptables -P INPUT ACCEPT
+#iptables -P FORWARD ACCEPT
+#iptables -P OUTPUT ACCEPT
 
 # NAT 
-iptables -t nat -P PREROUTING ACCEPT
-iptables -t nat -P INPUT ACCEPT
-iptables -t nat -P OUTPUT ACCEPT
+#iptables -t nat -P PREROUTING ACCEPT
+#iptables -t nat -P INPUT ACCEPT
+#iptables -t nat -P OUTPUT ACCEPT
 iptables -t nat -P POSTROUTING ACCEPT
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
@@ -100,10 +100,9 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 out "tunnelling to 'tunnel@$IP'"
 sshuttle -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns & 
 
-sleep 5
+sleep 10
 
 # On Exit. Just
 trap onexit INT TERM
-ifconfig tap0 up
 
 hostapd /etc/hostapd/hostapd.conf > /logs/hostapd.log
