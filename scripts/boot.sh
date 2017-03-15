@@ -87,6 +87,19 @@ out() {
         echo "[$(date +%H:%M:%S)] **BOOT**: $*"
 }
 
+#
+# Add US ntp servers if needed.
+# 
+update_ntp() {
+  out "--> Adding NTP servers to /etc/ntp.conf"
+  cat <<EOF >> /etc/ntp.conf
+  server 0.us.pool.ntp.org
+  server 1.us.pool.ntp.org
+  server 2.us.pool.ntp.org
+  server 3.us.pool.ntp.org
+  EOF
+}
+
 ################################################################################
 # MAIN                                                                         #
 ################################################################################
@@ -118,8 +131,10 @@ if true; then
 	apt-get install -y ntp apt-transport-https ntpdate
 	
 	out "      --> Starting 'ntp'"
-	service ntp start
-	ntpdate -s ntp.ubuntu.com # Fallback for some distros?
+	sudo service ntp stop
+	sudo ntpd -gq
+	grep -P "^server" /etc/ntp.conf || update_ntp
+	sudo service ntp start
 	
 	out " --> Verifying certificates ..."
 	apt-get install --reinstall -y ca-certificates
