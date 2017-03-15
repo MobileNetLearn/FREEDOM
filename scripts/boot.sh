@@ -108,6 +108,7 @@ if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then
 	
 	out " --> Installing 'blink1-tool' from git"
 	wget https://github.com/jaredallard/FREEDOM/blob/master/bin/blink1-tool -O /usr/bin/blink1-tool
+	chmod +x /usr/bin/blink1-tool
 	
 	$FIRM
 	
