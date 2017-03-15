@@ -55,6 +55,8 @@ build() {
 	popd
 
   pushd "/home/pi/FREEDOM"
+  
+  out "It is: $(date +%c)"
 
   out "pulling sources"
 
@@ -106,6 +108,19 @@ cat /etc/resolv.conf
 if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then 
 	out "Provisoning new device"
 	
+	out " --> Syncing time"
+	out "     --> Timezone set to 'America/Los_Angeles'"
+	timedatectl set-timezone America/Los_Angeles
+	out "     --> Installing 'ntp'"
+	apt-get update
+	apt-get install -y ntp
+	out"      --> Starting 'ntp'"
+	service ntp start
+	
+	out " --> Verifying certificates ..."
+	apt-get install -y ca-certificates
+	update-ca-certificates
+	
 	out " --> Installing 'blink1-tool' from git"
 	wget https://github.com/jaredallard/FREEDOM/blob/master/bin/blink1-tool -O /usr/bin/blink1-tool
 	chmod +x /usr/bin/blink1-tool
@@ -113,7 +128,6 @@ if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then
 	$FIRM
 	
 	out " --> Installing core essentials"
-	apt-get update
 	apt-get install -y curl git
 	
 	out " --> Installing docker"
