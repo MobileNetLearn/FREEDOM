@@ -115,7 +115,7 @@ if true; then
 	
 	out "     --> Installing 'ntp'"
 	apt-get update >/dev/null
-	apt-get install -y ntp apt-transport-https
+	apt-get install -y ntp apt-transport-https ntpdate
 	
 	out "      --> Starting 'ntp'"
 	service ntp start
