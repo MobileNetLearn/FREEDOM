@@ -124,11 +124,7 @@ CONTAINERID="$(${CMD} | tr -d '\n')"
 
 out "container ID: ${CONTAINERID}"
 
-out "Waiting for sshuttle"
-until pgrep sshuttle
-do
-	sleep 2
-done
+sleep 20
 
 # Delete nameservers on eth0
 out "Removing namservers on ${HOST_IFACE}"
@@ -142,13 +138,6 @@ if [[ $? -ne 0  ]]; then
 fi
 
 sleep 20
-
-out "Waiting for hostapd"
-until pgrep hostapd
-do
-	echo -n "."
-	sleep 2
-done
 
 out "ip addr / route -n after hostapd setup"
 ip addr
