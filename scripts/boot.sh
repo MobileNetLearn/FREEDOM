@@ -195,15 +195,15 @@ out "container ID: ${CONTAINERID}"
 sleep 20
 
 # Delete nameservers on eth0
-out "Removing namservers on ${HOST_IFACE}"
-resolvconf -d "${HOST_IFACE}"
+#out "Removing namservers on ${HOST_IFACE}"
+#resolvconf -d "${HOST_IFACE}"
 
 # Fix no resolvers.
-cat /etc/resolv.conf | grep 127.0.0.1
-if [[ $? -ne 0  ]]; then
-  out " --> Adding 127.0.0.1 to resolv.conf"
-  echo "nameserver 127.0.0.1" > /etc/resolv.conf
-fi
+#cat /etc/resolv.conf | grep 127.0.0.1
+#if [[ $? -ne 0  ]]; then
+#  out " --> Adding 127.0.0.1 to resolv.conf"
+#  echo "nameserver 127.0.0.1" > /etc/resolv.conf
+#fi
 
 out "Waiting 20 seconds ..."
 sleep 20
@@ -211,6 +211,7 @@ sleep 20
 out "ip addr / route -n after hostapd setup"
 ip addr
 route -n
+cat /etc/resolv.conf
 
 # Turn off blink1.
 sleep 10
