@@ -108,4 +108,5 @@ sleep 10
 # On Exit. Just
 trap onexit INT TERM
 
-hostapd /etc/hostapd/hostapd.conf > /logs/hostapd.log
+out "Starting hostapd"
+hostapd /etc/hostapd/hostapd.conf
