@@ -97,7 +97,7 @@ update_ntp() {
   server 1.us.pool.ntp.org
   server 2.us.pool.ntp.org
   server 3.us.pool.ntp.org
-  EOF
+EOF
 }
 
 ################################################################################
