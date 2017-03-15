@@ -85,7 +85,7 @@ build() {
 	$FIRM
 	sudo dpkg --configure -a
 		
-out "updating host device"
+        out "updating host device"
 	apt-get update
 	apt-get dist-upgrade -y
 
@@ -106,6 +106,11 @@ out() {
 out "modprobe '8812au'"
 modprobe 8812au
 
+out "Disabling ufw, if needed"
+ufw allow ssh || out "--> Wasn't able to allow ssh (already enabled?)"
+ufw disable || out "--> Wasn't able to disable ufw (already disabled?)"
+
+outt "/etc/resolv.conf contents"
 cat /etc/resolv.conf
 
 # Build the Docker Container
@@ -119,37 +124,33 @@ CONTAINERID="$(${CMD} | tr -d '\n')"
 
 out "container ID: ${CONTAINERID}"
 
-sleep 5
-
-out "--> docker logs '${CONTAINERID}'"
-docker logs "${CONTAINERID}"
-
-sleep 5
+out "Waiting for sshuttle"
+until pgrep sshuttle
+do
+	sleep 2
+done
 
 # Delete nameservers on eth0
 out "Removing namservers on ${HOST_IFACE}"
 resolvconf -d "${HOST_IFACE}"
 
+# Fix no resolvers.
 cat /etc/resolv.conf | grep 127.0.0.1
-
 if [[ $? -ne 0  ]]; then
   out " --> Adding 127.0.0.1 to resolv.conf"
   echo "nameserver 127.0.0.1" > /etc/resolv.conf
 fi
 
-docker logs "${CONTAINERID}"
-
 sleep 20
 
 out "Waiting for hostapd"
-echo ""
 until pgrep hostapd
 do
 	echo -n "."
 	sleep 2
 done
 
-out "After ip/route"
+out "ip addr / route -n after hostapd setup"
 ip addr
 route -n
 
