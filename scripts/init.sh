@@ -8,10 +8,10 @@ if [[ -e "/config/out_inf" ]]; then
 	IFACE="$(cat /config/out_inf)"
 fi
 
-# Default IFACE to wlan1
+# Default IFACE to wlan0
 if [[ -z "${IFACE}" ]]; then
-	echo "INIT: NOTICE: defaulting to 'wlan1'"
-	IFACE="wlan1"
+	echo "INIT: NOTICE: defaulting to 'wlan0'"
+	IFACE="wlan0"
 fi
 
 if [[ -e '/config/inf' ]]; then
@@ -26,7 +26,7 @@ onexit() {
 	out "got SIGTERM/KILL"
 	killall openvpn hostapd sshuttle
 
-	ifconfig wlan1 0.0.0.0
+	ifconfig ${IFACE} 0.0.0.0
 
 	systemctl stop obfsproxy
 	systemctl stop dbus
@@ -38,9 +38,9 @@ onexit() {
 # Create tap0
 
 out "configuring interfaces ..."
-ifconfig wlan1 0.0.0.0
-ifconfig wlan1 172.10.1.1
-ifconfig wlan1 netmask 255.255.255.0
+ifconfig ${IFACE} 0.0.0.0
+ifconfig ${IFACE} 172.10.1.1
+ifconfig ${IFACE} netmask 255.255.255.0
 
 # unblock wifi
 rfkill block wifi
