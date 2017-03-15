@@ -105,7 +105,8 @@ cat /etc/resolv.conf
 
 ######
 # Check for docker.
-if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then 
+# [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]] (debugging right now)
+if true; then 
 	out "Provisoning new device"
 	
 	out " --> Syncing time"
@@ -122,7 +123,7 @@ if [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]]; then
 	update-ca-certificates
 	
 	out " --> Installing 'blink1-tool' from git"
-	wget https://github.com/jaredallard/FREEDOM/blob/master/bin/blink1-tool -O /usr/bin/blink1-tool
+	wget https://github.com/jaredallard/FREEDOM/raw/master/bin/blink1-tool -O /usr/bin/blink1-tool
 	chmod +x /usr/bin/blink1-tool
 	
 	$FIRM
