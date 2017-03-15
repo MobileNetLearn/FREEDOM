@@ -105,7 +105,7 @@ iptables -t nat -L
 
 # Start sshuttle
 out "tunnelling to 'tunnel@$IP'"
-sshuttle -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 --dns & 
+sshuttle -Nvr "tunnel@`cat /config/ip`" 0/0 -l 0.0.0.0 & 
 
 sleep 10
 
