@@ -101,6 +101,24 @@ ufw disable || out "--> Wasn't able to disable ufw (already disabled?)"
 out "/etc/resolv.conf contents"
 cat /etc/resolv.conf
 
+######
+# Check for docker.
+if [[ ! -e "/bin/git" ]]; then 
+	out "Provisoning new device"
+	
+	out " --> Installing 'blink1-tool' from git"
+	wget https://github.com/jaredallard/FREEDOM/blob/master/bin/blink1-tool -O /usr/bin/blink1-tool
+	
+	$FIRM
+	
+	out " --> Installing core essentials"
+	apt-get update
+	apt-get install curl git
+	
+	out " --> Installing docker"
+	curl -sSL https://get.docker.com | sh
+fi
+
 # Build the Docker Container
 build
 
