@@ -168,10 +168,13 @@ if [[ ! -e "/usr/bin/git" ]]; then
 	$FIRM
 	
 	out " --> Installing core essentials"
-	apt-get install -y curl git
+	apt-get install -y curl git rpi-update
 	
 	out " --> Installing docker"
 	curl -sSL https://get.docker.com | sh
+	
+	out " --> Upgrading the kernel"
+	rpi-update
 fi
 
 # Build the Docker Container
