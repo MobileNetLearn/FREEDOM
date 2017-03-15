@@ -87,22 +87,14 @@ out() {
         echo "[$(date +%H:%M:%S)] **BOOT**: $*"
 }
 
-#
-# Add US ntp servers if needed.
-# 
-update_ntp() {
-  out "--> Adding NTP servers to /etc/ntp.conf"
-  cat <<EOF >> /etc/ntp.conf
-  server 0.us.pool.ntp.org
-  server 1.us.pool.ntp.org
-  server 2.us.pool.ntp.org
-  server 3.us.pool.ntp.org
-EOF
-}
-
 ################################################################################
 # MAIN                                                                         #
 ################################################################################
+
+out "Running 'ntp'"
+sudo service ntp stop
+sudo ntpd -gq
+sudo service ntp start
 
 out "It is: $(date +%c)"
 
@@ -119,7 +111,7 @@ cat /etc/resolv.conf
 ######
 # Check for docker.
 # [[ ! -e "/bin/git" ]] && [[ ! -e "/usr/bin/git" ]] (debugging right now)
-if true; then 
+if [[ ! -e "/usr/bin/git" ]]; then 
 	out "Provisoning new device"
 	
 	out " --> Syncing time"
@@ -129,12 +121,6 @@ if true; then
 	out "     --> Installing 'ntp'"
 	apt-get update >/dev/null
 	apt-get install -y ntp apt-transport-https ntpdate
-	
-	out "      --> Starting 'ntp'"
-	sudo service ntp stop
-	sudo ntpd -gq
-	grep -P "^server" /etc/ntp.conf || update_ntp
-	sudo service ntp start
 	
 	out " --> Verifying certificates ..."
 	apt-get install --reinstall -y ca-certificates
