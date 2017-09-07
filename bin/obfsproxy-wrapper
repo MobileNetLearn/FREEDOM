@@ -2,4 +2,4 @@
 
 SHSEC="$(cat /etc/obfsproxy/obfsproxy.secret)"
 
-obfsproxy --log-min-severity=info obfs2 --shared-secret="${SHSEC}" socks 127.0.0.1:9990
+obfsproxy --log-min-severity=info obfs2 --shared-secret="${SHSEC}" socks 127.0.0.1:1194
